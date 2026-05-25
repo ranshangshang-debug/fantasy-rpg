@@ -35,7 +35,7 @@ android.namespace = com.game.fantasyrpg
 android.api = 31
 
 # (int) 最低API
-android.minapi = 21
+android.minapi = 24
 
 # (str) 启动器图标（可选）
 # icon.filename = %(source.dir)s/data/icon.png
