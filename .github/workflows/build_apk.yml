@@ -8,17 +8,38 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
-    - name: Build with Buildozer
-      uses: kivy/buildozer@master
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
       with:
-        command: android release
-        
-    - name: Upload APK artifact
+        python-version: '3.11'
+
+    - name: Install system dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y openjdk-17-jdk zip unzip
+
+    - name: Install Buildozer
+      run: |
+        pip install buildozer cython
+
+    - name: Build APK
+      env:
+        BUILDOZER_ALLOW_ROOT: "1"
+        CI: "true"
+      run: |
+        python3 -c "
+import subprocess, sys
+p = subprocess.Popen(['buildozer', 'android', 'debug'], stdin=subprocess.PIPE, stdout=sys.stdout, stderr=sys.stderr, text=True)
+p.communicate(input='y\n')
+sys.exit(p.returncode)
+"
+
+    - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: release-apk
