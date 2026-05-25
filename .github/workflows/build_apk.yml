@@ -23,6 +23,12 @@ jobs:
         sudo apt update
         sudo apt install -y openjdk-17-jdk zip unzip
 
+    - name: Set up Java 17
+      run: |
+        sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
+        sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/javac
+        echo "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $GITHUB_ENV
+
     - name: Install Buildozer
       run: |
         pip install buildozer cython
@@ -38,3 +44,4 @@ jobs:
       with:
         name: release-apk
         path: bin/*.apk
+
