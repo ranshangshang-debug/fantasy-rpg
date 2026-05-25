@@ -31,13 +31,7 @@ jobs:
       env:
         BUILDOZER_ALLOW_ROOT: "1"
         CI: "true"
-      run: |
-        python3 -c "
-import subprocess, sys
-p = subprocess.Popen(['buildozer', 'android', 'debug'], stdin=subprocess.PIPE, stdout=sys.stdout, stderr=sys.stderr, text=True)
-p.communicate(input='y\n')
-sys.exit(p.returncode)
-"
+      run: python3 run_buildozer.py
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
