@@ -1,0 +1,25 @@
+name: Build Kivy Android APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Build with Buildozer
+      uses: kivy/buildozer@master
+      with:
+        command: android release
+        
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-apk
+        path: bin/*.apk
